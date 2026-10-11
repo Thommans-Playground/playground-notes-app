@@ -18,11 +18,13 @@ None for this initial single-user version.
 
 ## Main Flow
 
-1. User provides a note title and optional content.
-2. System validates the title.
-3. System creates a Note with a unique identity.
-4. System saves the Note.
-5. System returns the created Note's identifier.
+1. User provides a title and optional content.
+2. System removes leading and trailing whitespace from the title.
+3. System validates that the normalized title is non-empty.
+4. System assigns a unique Note identifier.
+5. System creates the Note with status ACTIVE.
+6. System persists the Note.
+7. System returns the created Note identifier.
 
 ## Alternative Flows
 
@@ -36,6 +38,13 @@ None for this initial single-user version.
 
 - The system cannot save the Note.
 - The operation fails without reporting successful creation.
+
+**AF-003: Invalid Title**
+
+If the normalized title is empty:
+- Reject the request.
+- Do not create or persist a Note.
+- Return a validation error.
 
 ## Postconditions
 

@@ -66,9 +66,13 @@ rules:
     description: Every Note has a unique, immutable identity.
 
   - id: INV-NOTE-002
-    description: A Note must have a non-empty title.
-    constraint: Title must contain at least one non-whitespace character.
-
+    description: >
+      A Note must have a non-empty title.
+      Leading and trailing whitespace must be removed.
+    constraints:
+      - Trim leading and trailing whitespace.
+      - Reject the title if the normalized value is empty.
+  
   - id: INV-NOTE-003
     description: A newly created Note has ACTIVE status.
 
