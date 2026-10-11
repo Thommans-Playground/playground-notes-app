@@ -10,11 +10,7 @@ Verification does not write features. It answers one question with evidence: doe
 ## Steps
 
 1. **Run the suites, one level at a time**, so a failure points at a layer: unit, integration, system, acceptance. Then the whole suite with coverage.
-2. **Run the spec and architecture checks**:
-   - `uv run --with rdflib --with pyshacl tools/check_ontology.py`
-   - `uv run --with rdflib tools/ontology_to_puml.py --check`
-   - `uv run --with rdflib tools/traceability.py` then `--check`
-   - the import-linter dependency-rule contracts
+2. **Run the gate**: `uv run tools/check.py --verify`. It runs the ontology checks, the diagram and traceability freshness checks, the test suites with coverage, the import-linter dependency-rule contracts, and fails if any acceptance criterion has no tests. If a part cannot run (no tests, no contract), that is a failure, not a skip.
 3. **Read the traceability Gaps section.** For this use case, "Acceptance criteria with no tests" must be empty. Every other gap is closed, or accepted with a one-line reason recorded in the use case's Kanban note or an ADR. Do not hide a gap by editing the generated file.
 4. **Compare against the Verification Mapping.** For each acceptance criterion, confirm tests exist at every level the mapping names (not just one), and that the alternative flows in the use case each have a system test.
 5. **Triage failures by where the fault is**, then fix at the owner, not at the symptom:
@@ -26,7 +22,7 @@ Verification does not write features. It answers one question with evidence: doe
 
 ## Exit check
 
-- All suites pass, and all spec and architecture checks pass.
+- `uv run tools/check.py --verify` passes.
 - Every acceptance criterion of the use case has passing tests at each mapped level.
 - No unexplained traceability gap remains for this use case.
 - Report to the user: what ran, counts passed and failed, coverage, any accepted gaps.

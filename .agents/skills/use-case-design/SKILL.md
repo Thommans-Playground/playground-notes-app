@@ -30,7 +30,7 @@ Start only when the use case has passed its Analysis exit check. The architectur
 - Every ontology rule the use case touches appears in the enforcement table.
 - The driving port and the driven ports are named, and the design diagrams are drawn.
 - Each acceptance criterion has its tests identified.
-- Regenerate `docs/traceability.md`. No rule is missing from the enforcement table and no criterion is missing from the design mapping.
+- Regenerate `docs/traceability.md`, and `uv run tools/check.py` passes. No rule is missing from the enforcement table and no criterion is missing from the design mapping.
 - Update `docs/kanban.md`: move the card to Implementation.
 
 ## Do not

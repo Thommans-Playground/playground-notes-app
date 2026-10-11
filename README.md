@@ -9,6 +9,43 @@ A notes application built to practise a specification-driven, test-first method:
 3. **One language.** Terms follow the Ubiquitous Language (UL-NOTE-001).
 4. **The ontology is the single source of truth for domain meaning:** concepts, relationships, rules, and lifecycle. Interaction is owned by the use case and design by the design specification. Both cite the ontology and never restate it.
 
+These are responsibility boundaries, not phases. The artifacts are different views of one system, so you will revisit earlier ones as you learn. The stages below order the *delivery* of a use case. They do not make one artifact depend on finishing another.
+
+## Where information belongs
+
+When a new statement turns up, ask what kind it is. It belongs to the one owner in the right column. Everything else cites it by ID.
+
+| Kind of statement | Owner | Example |
+|---|---|---|
+| A stakeholder need, and how to tell it is met | Requirement (acceptance criteria) | Users must be able to archive Notes |
+| A domain truth: what exists and what is always true | Ontology | A Note is Active, Archived or Deleted |
+| A condition the aggregate must protect that the ontology cannot express | Domain invariant (`INV`) in the design specification | |
+| An interaction: steps and failure flows | Use case | Archiving a Note, step by step |
+| How software represents and enforces a truth | Design specification | `Note.archive()` controls the transition |
+| A structural choice with a reason | ADR | Ports are `typing.Protocol` classes |
+| A way to check a fact | Test, citing the criterion or rule it checks | Archived Notes keep their Content |
+
+A use case postcondition or a test that restates a domain rule is duplication. It cites the rule instead. Tests verify facts and never own them.
+
+### The ontology
+
+The ontology is persistent. It is written once per bounded context and grows across use cases, so a new use case adds only what it needs and does not recreate the model.
+
+- **Scope: one ontology per bounded context.** A shared project-wide model would blur terms that mean different things in different contexts.
+- **Growth: on demand.** Model a concept when a use case needs it, not when you first think of it. Unused concepts cannot be told apart from exercised ones.
+- **In a use case it is a lookup, then an extension.** Check whether each noun, relationship and rule exists. Add only what is missing. Nothing may cite an ID before it exists.
+
+## Changing something upstream
+
+When Implementation or Verification shows that an upstream artifact is wrong, fix its owner and not the symptom.
+
+1. Find what cites it: `uv run --with rdflib tools/traceability.py --impact <ID>`.
+2. Change the owning artifact, and regenerate the generated views.
+3. Revisit each artifact the impact query listed, and each test that carries the ID.
+4. Run `uv run tools/check.py`. For a card in Verification, run `uv run tools/check.py --verify`.
+
+An ID is stable. If a rule's meaning changes, change its text and review its citers. If it is replaced by a different rule, retire the old ID and never reuse it.
+
 ## Naming
 
 An artifact ID is `<TYPE>-<DOMAIN>-<NUMBER>`, or `<TYPE>-<SUBTYPE>-<DOMAIN>-<NUMBER>` for types with subtypes. Records that are not tied to a domain omit it (`ADR-001`).
@@ -66,6 +103,13 @@ uv run --with rdflib tools/ontology_to_puml.py --check  # fail if out of date
 uv run --with rdflib --with pyshacl tools/check_ontology.py  # lint, constraints, competency questions
 uv run --with rdflib tools/traceability.py              # write docs/traceability.md and .puml
 uv run --with rdflib tools/traceability.py --check      # fail if out of date or an unknown ontology ID is cited
+```
+
+One command runs every check and is the gate for each Kanban exit check:
+
+```
+uv run tools/check.py           # Analysis and Design gate: spec, diagrams, traceability
+uv run tools/check.py --verify  # Verification gate: also tests for every criterion, the test suites, and the dependency rule
 ```
 
 An inline Mermaid diagram is illustrative and never authoritative. It must not restate a rule, flow, or structure that another artifact owns. If a fact appears only in a Mermaid diagram, move it to its owner.

@@ -17,6 +17,10 @@ Usage
   uv run --with rdflib tools/traceability.py            write the matrix
   uv run --with rdflib tools/traceability.py --check    fail if it is out of date,
                                                         or if a document cites an unknown ontology ID
+  uv run --with rdflib tools/traceability.py --check --require-tests
+                                                        also fail if an acceptance criterion has no tests
+  uv run --with rdflib tools/traceability.py --impact ID
+                                                        list every artifact that cites an ID
 """
 
 import argparse
@@ -272,11 +276,44 @@ def build() -> tuple[str, str, list[str]]:
     return "\n".join(lines), "\n".join(puml), unknown
 
 
+def impact(ident: str) -> int:
+    """Print every file that cites an ID: the artifacts to revisit when its owner changes."""
+    pattern = re.compile(re.escape(ident) + r"(?![\w-])")
+    skip = {OUTPUT, DIAGRAM}
+    roots = [DOCS, ROOT / "backend", ROOT / ".agents", ROOT / "README.md"]
+    hits = []
+    for root in roots:
+        files = [root] if root.is_file() else sorted(root.rglob("*"))
+        for path in files:
+            if not path.is_file() or path in skip or ".venv" in path.parts or "__pycache__" in path.parts:
+                continue
+            try:
+                lines = path.read_text().splitlines()
+            except UnicodeDecodeError:
+                continue
+            numbers = [n for n, line in enumerate(lines, 1) if pattern.search(line)]
+            if numbers:
+                hits.append((str(path.relative_to(ROOT)), numbers))
+    if not hits:
+        print(f"{ident} is not cited anywhere")
+        return 1
+    for name, numbers in hits:
+        print(f"{name}: lines {', '.join(map(str, numbers))}")
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true",
                         help="fail if the matrix is out of date or cites an unknown ontology ID")
+    parser.add_argument("--require-tests", action="store_true",
+                        help="with --check, also fail if an acceptance criterion has no tests")
+    parser.add_argument("--impact", metavar="ID",
+                        help="list every file that cites ID, to see what to revisit before changing its owner")
     args = parser.parse_args()
+
+    if args.impact:
+        return impact(args.impact)
 
     matrix, diagram, unknown = build()
     outputs = {OUTPUT: matrix, DIAGRAM: diagram}
@@ -292,6 +329,8 @@ def main() -> int:
         if not path.exists() or path.read_text() != content
     ]
     problems += [f"unknown ontology ID cited: {i}" for i in unknown]
+    if args.require_tests:
+        problems += [f"no tests for {ac}" for ac in sorted(acceptance_criteria()) if ac not in tests()]
     for problem in problems:
         print(problem)
     return 1 if problems else 0

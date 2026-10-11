@@ -30,8 +30,8 @@ Follow these steps in order. The ontology (`docs/ontology/ont-<context>.ttl`) is
 
 ## Exit check
 
-- The ontology checks pass and its generated diagrams are current (see `ontology-authoring`).
-- `tools/traceability.py --check` passes, and every gap in `docs/traceability.md` for this use case is closed or accepted.
+- `uv run tools/check.py` passes (ontology checks, current diagrams, current traceability).
+- Every gap in `docs/traceability.md` for this use case is closed or accepted.
 - The requirement and the use case are reviewed.
 - Update `docs/kanban.md`: move the card to Design.
 
