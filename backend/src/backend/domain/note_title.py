@@ -6,6 +6,7 @@ ONT-RULE-NOTE-002.
 """
 
 from dataclasses import dataclass
+from backend.domain.errors import InvalidTitle
 
 @dataclass(frozen=True)
 class NoteTitle: 
@@ -27,5 +28,12 @@ class NoteTitle:
 
         Returns:
             A NoteTitle holding the text.
+
+        Raises:
+            InvalidTitle: If nothing is left after removing surrounding whitespace.
         """
-        return cls(value=raw)
+
+        normalized = raw.strip()
+        if not normalized:
+            raise InvalidTitle()
+        return cls(value=normalized)

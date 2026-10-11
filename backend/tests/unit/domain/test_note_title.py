@@ -7,6 +7,7 @@ service, repository or framework involved.
 
 import pytest
 
+from backend.domain.errors import InvalidTitle
 from backend.domain.note_title import NoteTitle
 
 
@@ -21,3 +22,41 @@ def test_a_valid_title_keeps_its_text():
     title = NoteTitle.of("Shopping list")
 
     assert title.value == "Shopping list"
+
+
+@pytest.mark.ac("REQ-FR-NOTE-001/AC-007")
+def test_whitespace_around_a_title_is_removed():
+    """Leading and trailing whitespace is removed when a NoteTitle is built.
+
+    Given the raw text "  Shopping list  "
+    When a NoteTitle is built from it with NoteTitle.of
+    Then the NoteTitle's value is "Shopping list"
+    """
+    title = NoteTitle.of("  Shopping list  ")
+
+    assert title.value == "Shopping list"
+
+
+@pytest.mark.ac("REQ-FR-NOTE-001/AC-007")
+def test_spaces_inside_a_title_are_kept():
+    """Only surrounding whitespace is removed; spaces between words are left alone.
+
+    Given the raw text "  Shopping   list  " with several spaces between the words
+    When a NoteTitle is built from it with NoteTitle.of
+    Then the NoteTitle's value is "Shopping   list", with the inner spaces unchanged
+    """
+    title = NoteTitle.of("  Shopping   list  ")
+
+    assert title.value == "Shopping   list"
+
+
+@pytest.mark.ac("REQ-FR-NOTE-001/AC-005")
+def test_an_empty_title_is_rejected():
+    """A Title with no characters at all cannot become a Normalized Title.
+
+    Given the raw text "" (nothing)
+    When a NoteTitle is built from it with NoteTitle.of
+    Then InvalidTitle is raised and no NoteTitle exists
+    """
+    with pytest.raises(InvalidTitle):
+        NoteTitle.of("")
