@@ -30,3 +30,7 @@ dev = [
     "pytest-cov>=7.1.0",
     "rdflib>=7.6.0",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["ac(id): the acceptance criterion this test covers"]

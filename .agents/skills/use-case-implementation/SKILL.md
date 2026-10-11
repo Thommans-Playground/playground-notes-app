@@ -36,6 +36,8 @@ Implementation is done as a pairing session. The user reads the actual files, so
 4. **Refactor, as a conversation.** List what you would change and why (duplication, naming, a rule in the wrong layer), with options where there is a real choice. Change nothing until the user agrees. Then apply it, rerun the tests, and link the changed files. **Pause** if the user wants to read it.
 5. **Commit** the green or refactored state when the user says so, then go to the next test.
 
+**Who types.** By default Claude writes the tests and the code. If the user wants to type the implementation themselves, Claude still writes the tests (with docstrings stating what each checks), runs them and reports the red result, then gives the implementation in chat in small chunks with the file path above each chunk. Say what to run and what result to expect, and wait for the user to confirm or paste the real output before going on. Review the user's version against the design and the tests, not against Claude's own, and flag differences only when they matter. Every module, class and public function carries a docstring saying what it is for and which design or ontology ID it realizes.
+
 The user can set the pace. In step mode, pause at every stage above. In batch mode, pause once per behavior, after red, green and refactor for a small group of related tests. Start in step mode and change only when the user asks.
 
 The acceptance scenario for a criterion gets the same treatment first: write the step definitions, show that the scenario is red, and pause. That is where the question of how an outcome is observed is settled.
