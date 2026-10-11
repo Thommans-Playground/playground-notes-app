@@ -6,6 +6,7 @@ ONT-RULE-NOTE-002.
 """
 
 from dataclasses import dataclass
+
 from backend.domain.errors import InvalidTitle
 
 
@@ -14,13 +15,13 @@ class NoteTitle:
     """
     An immutable Title that is already normalized.
 
-    Build one with `NoteTitle.of`, which is the only intended way in.
+    Build one with `NoteTitle.of`, which is the only way in.
     """
 
     value: str
 
-    def __init__(self, *args, **kwargs)-> None:
-        """ 
+    def __init__(self, *args, **kwargs) -> None:
+        """
         Prevent direct instantiation of NoteTitle. Use NoteTitle.of instead.
         """
         raise TypeError("Use NoteTitle.of to build a NoteTitle")
@@ -39,11 +40,9 @@ class NoteTitle:
         Raises:
             InvalidTitle: If nothing is left after removing surrounding whitespace.
         """
-
         normalized = raw.strip()
         if not normalized:
             raise InvalidTitle()
-        # return cls(value=normalized)
         title = object.__new__(cls)
         object.__setattr__(title, "value", normalized)
         return title
