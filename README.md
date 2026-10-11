@@ -72,15 +72,17 @@ An inline Mermaid diagram is illustrative and never authoritative. It must not r
 
 ## Procedure for each use case
 
-A use case moves across the Kanban one stage at a time. A stage is finished when its exit check passes. The steps for Analysis and Design are skills, kept in `.agents/skills/` (and visible to Claude Code through `.claude/skills`):
+A use case moves across the Kanban one stage at a time. A stage is finished when its exit check passes. The steps for each stage are skills, kept in `.agents/skills/` (and visible to Claude Code through `.claude/skills`):
 
 - `ontology-authoring`: change the ontology, run its checks, and regenerate its diagrams
 - `use-case-analysis`: requirement, ontology, language, use case, and analysis diagrams
 - `use-case-design`: domain model, ports, decisions, and test mapping
+- `use-case-implementation`: tests first (BDD, then TDD), then code inside the hexagonal layout
+- `use-case-verification`: run every check, close gaps, and close the card
 
 ### Implementation and Verification
 
-Write the tests first (TDD), then the code. Run all checks. The use case is done when its acceptance criteria pass.
+See the two skills above. In short: write the tests first, then the code, then run every check. The use case is done when its acceptance criteria pass at every level the design mapped.
 
 ## Mini V-cycle
 
