@@ -8,18 +8,25 @@ ONT-RULE-NOTE-002.
 from dataclasses import dataclass
 from backend.domain.errors import InvalidTitle
 
-@dataclass(frozen=True)
-class NoteTitle: 
+
+@dataclass(frozen=True, init=False)
+class NoteTitle:
     """
     An immutable Title that is already normalized.
 
     Build one with `NoteTitle.of`, which is the only intended way in.
     """
 
-    value: str 
+    value: str
 
-    @classmethod 
-    def of(cls, raw: str)-> "NoteTitle":
+    def __init__(self, *args, **kwargs)-> None:
+        """ 
+        Prevent direct instantiation of NoteTitle. Use NoteTitle.of instead.
+        """
+        raise TypeError("Use NoteTitle.of to build a NoteTitle")
+
+    @classmethod
+    def of(cls, raw: str) -> "NoteTitle":
         """
         Build a NoteTitle from raw text.
 
@@ -36,4 +43,7 @@ class NoteTitle:
         normalized = raw.strip()
         if not normalized:
             raise InvalidTitle()
-        return cls(value=normalized)
+        # return cls(value=normalized)
+        title = object.__new__(cls)
+        object.__setattr__(title, "value", normalized)
+        return title

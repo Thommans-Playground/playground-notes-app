@@ -60,3 +60,27 @@ def test_an_empty_title_is_rejected():
     """
     with pytest.raises(InvalidTitle):
         NoteTitle.of("")
+
+
+@pytest.mark.ac("REQ-FR-NOTE-001/AC-005")
+def test_a_whitespace_only_title_is_rejected():
+    """A Title with only whitespace has nothing left once normalized, so it is invalid.
+
+    Given the raw text "   " (spaces only)
+    When a NoteTitle is built from it with NoteTitle.of
+    Then InvalidTitle is raised and no NoteTitle exists
+    """
+    with pytest.raises(InvalidTitle):
+        NoteTitle.of("   ")
+
+
+@pytest.mark.ac("REQ-FR-NOTE-001/AC-005")
+def test_a_title_cannot_be_built_without_validation():
+    """The constructor is private, so ONT-RULE-NOTE-002 cannot be skipped.
+
+    Given the raw text "   " that NoteTitle.of would reject
+    When a NoteTitle is built by calling the class directly
+    Then TypeError is raised, so the only way in is NoteTitle.of
+    """
+    with pytest.raises(TypeError):
+        NoteTitle("   ")

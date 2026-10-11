@@ -29,8 +29,17 @@ dev = [
     "pytest-bdd>=9.0.0",
     "pytest-cov>=7.1.0",
     "rdflib>=7.6.0",
+    "ruff>=0.17.0",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["ac(id): the acceptance criterion this test covers"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py314"
+src = ["src", "tests"]
+
+[tool.ruff.format]
+docstring-code-format = true
