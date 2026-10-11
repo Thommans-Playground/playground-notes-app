@@ -62,6 +62,7 @@ An artifact ID is `<TYPE>-<DOMAIN>-<NUMBER>`, or `<TYPE>-<SUBTYPE>-<DOMAIN>-<NUM
 | Domain invariant | `INV` | `INV-NOTE-001` |
 | Architecture decision | `ADR` | `ADR-001` |
 | Design specification | `DES` | `DES-NOTE-001` |
+| Design step | `DS` | `UC-NOTE-001/DS-01` |
 | Test case | `TC` | `TC-NOTE-001` |
 | Test suite | `TS` | `TS-NOTE-001` |
 | Defect | `BUG` | `BUG-NOTE-001` |

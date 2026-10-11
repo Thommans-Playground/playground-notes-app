@@ -15,7 +15,7 @@ Start only when the use case has passed its Analysis exit check. The architectur
    - Add every new or changed `ONT-RULE` to the enforcement table, saying what enforces it.
    - Add a domain invariant (`INV`) only for a condition the ontology cannot express. It cites the ontology rule it relates to.
    - Keep the diagram consistent with the document. Use composition for value objects the aggregate owns.
-2. **Ports and design diagrams.** Name the driving port the use case is offered through, and any driven ports it needs. Respect the dependency rule: the domain imports nothing from the application or adapters, and the application imports no adapter. Draw them next to the use case as `design-<use case id>-<slug>-sequence.puml` (adapter, port, service, domain, driven port) and `design-<use case id>-<slug>-class.puml` (application and adapters; domain classes by name only).
+2. **Ports and design diagrams.** Name the driving port the use case is offered through, and any driven ports it needs. Respect the dependency rule: the domain imports nothing from the application or adapters, and the application imports no adapter. Draw them next to the use case as `design-<use case id>-<slug>-sequence.puml` (adapter, port, service, domain, driven port; number each call and outcome `DS-01`, `DS-02`, in reading order, bold in the label, so a step can be cited as `<use case id>/DS-nn`; arrows that only pass a result back unchanged stay unnumbered) and `design-<use case id>-<slug>-class.puml` (application and adapters; domain classes by name only).
 3. **Decisions.** Record any significant choice as an ADR, following `adr-authoring`.
 4. **Test mapping.** For each acceptance criterion, decide which tests cover it:
    - acceptance: the Gherkin scenario

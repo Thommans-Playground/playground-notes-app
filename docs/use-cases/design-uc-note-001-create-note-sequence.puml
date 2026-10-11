@@ -3,6 +3,8 @@
 
 title UC-NOTE-001 - Create Note - Design Sequence
 
+' Step IDs: UC-NOTE-001/DS-nn. Only calls and outcomes are numbered; the arrows that pass a result back unchanged are not.
+
 actor User
 participant "HttpNotesRouter\n<<driving adapter>>" as Http
 participant "CreateNoteUseCase\n<<driving port>>" as InPort
@@ -11,36 +13,36 @@ participant "Note\n<<domain>>" as Note
 participant "NoteRepository\n<<driven port>>" as OutPort
 participant "InMemoryNoteRepository\n<<driven adapter>>" as Repo
 
-User -> Http : POST /notes {title, content}
+User -> Http : <b>DS-01</b> POST /notes {title, content}
 activate Http #EEF2FF
-Http -> InPort : execute(CreateNoteCommand)
-InPort -> Service : execute(CreateNoteCommand)
+Http -> InPort : <b>DS-02</b> execute(CreateNoteCommand)
+InPort -> Service : <b>DS-03</b> execute(CreateNoteCommand)
 activate Service #F8FAFC
 
-Service -> Note : create(title, content)\nNoteTitle.of: ONT-RULE-NOTE-002\nNoteId.generate: ONT-RULE-NOTE-001\nstatus Active: ONT-RULE-NOTE-003
+Service -> Note : <b>DS-04</b> create(title, content)\nNoteTitle.of: ONT-RULE-NOTE-002\nNoteId.generate: ONT-RULE-NOTE-001\nstatus Active: ONT-RULE-NOTE-003
 
 alt #FFF1F2 InvalidTitle (AF-001, AC-005)
-    Note --> Service : raises InvalidTitle
+    Note --> Service : <b>DS-05</b> raises InvalidTitle
     Service --> InPort : InvalidTitle
     InPort --> Http : InvalidTitle
-    Http --> User : 422, title is not valid
+    Http --> User : <b>DS-06</b> 422, title is not valid
 else #F0FDF4 Note created
     Note --> Service : Note
-    Service -> OutPort : add(note)
-    OutPort -> Repo : add(note)
+    Service -> OutPort : <b>DS-07</b> add(note)
+    OutPort -> Repo : <b>DS-08</b> add(note)
 
     alt #FFF1F2 NoteNotKept (AF-002, AC-006)
-        Repo --> OutPort : raises NoteNotKept
+        Repo --> OutPort : <b>DS-09</b> raises NoteNotKept
         OutPort --> Service : NoteNotKept
         Service --> InPort : NoteNotKept
         InPort --> Http : NoteNotKept
-        Http --> User : 500, creation failed
+        Http --> User : <b>DS-10</b> 500, creation failed
     else #F0FDF4 kept
         Repo --> OutPort : ok
         OutPort --> Service : ok
         Service --> InPort : NoteId
         InPort --> Http : NoteId
-        Http --> User : 201 {id}
+        Http --> User : <b>DS-11</b> 201 {id}
     end
 end
 

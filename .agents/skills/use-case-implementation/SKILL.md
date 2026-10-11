@@ -26,6 +26,20 @@ Tests come first because they are the executable form of the acceptance criteria
 6. **Refactor with the suite green.** Keep adapters thin: they translate and delegate. A domain rule found in an adapter or the service moves into the domain.
 7. **Spec feedback.** If implementation shows the spec is wrong or incomplete, stop and fix the owner artifact first (ontology, requirement, use case, or design). Search for the ID (`grep -rn <ID> docs backend`) to find what else cites it, regenerate its checks, then continue. Do not patch around it in code or tests.
 
+## Working with the user
+
+Implementation is done as a pairing session. The user reads the actual files, so each pause is a real stop: write the files to disk, say where they are, and end the turn. Do not continue until the user replies. Do not paste the code into chat to be read there; link the files (with line numbers where it helps) and say only what the user needs to review them.
+
+1. **Test list first.** Before writing anything, list the tests for the criterion in the order you would write them, taken from the design's Verification Mapping. The user edits the list. Pause.
+2. **Red.** Write one test. Before running it, say in a sentence what you expect to happen. Run it and report the real result in a line or two: which test failed, and why. Check that it fails for the right reason (missing behavior, not an import or typo error). Link the test file. **Pause for the user to read the test.**
+3. **Green.** Write the smallest code that makes the test pass and nothing more. Run the suite and report the result. Link the changed files. **Pause for the user to read the code.** Anything extra you notice goes on a "later" list for the refactor step. It does not go into the code.
+4. **Refactor, as a conversation.** List what you would change and why (duplication, naming, a rule in the wrong layer), with options where there is a real choice. Change nothing until the user agrees. Then apply it, rerun the tests, and link the changed files. **Pause** if the user wants to read it.
+5. **Commit** the green or refactored state when the user says so, then go to the next test.
+
+The user can set the pace. In step mode, pause at every stage above. In batch mode, pause once per behavior, after red, green and refactor for a small group of related tests. Start in step mode and change only when the user asks.
+
+The acceptance scenario for a criterion gets the same treatment first: write the step definitions, show that the scenario is red, and pause. That is where the question of how an outcome is observed is settled.
+
 ## Exit check
 
 - Every test in the Verification Mapping for this use case exists, is tagged, and passes.
