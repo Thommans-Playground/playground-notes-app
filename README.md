@@ -122,7 +122,10 @@ A use case moves across the Kanban one stage at a time. A stage is finished when
 - `use-case-analysis`: requirement, ontology, language, use case, and analysis diagrams
 - `use-case-design`: domain model, ports, decisions, and test mapping
 - `use-case-implementation`: tests first (BDD, then TDD), then code inside the hexagonal layout
-- `use-case-verification`: run every check, close gaps, and close the card
+- `use-case-verification`: run every check, confirm coverage by hand, and close the card
+- `architecture-howto`: where code goes and recipes for ports and adapters (cites the ADRs)
+- `adr-authoring`: when and how to write an architecture decision record
+- `project-bootstrap`: start a new project on this method (used once per project)
 
 ### Implementation and Verification
 

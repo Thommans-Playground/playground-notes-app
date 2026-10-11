@@ -5,7 +5,7 @@ description: Run the Implementation stage for a use case in this project: write 
 
 # Use Case Implementation
 
-Start only when the use case has passed its Design exit check. The design specification (`docs/architecture/des-*`) and the design diagrams say what to build. The ontology owns domain meaning. Code realizes it and never redefines it. Layout and port style are in ADR-004. Layers and the dependency rule are in ADR-001.
+Start only when the use case has passed its Design exit check. The design specification (`docs/architecture/des-*`) and the design diagrams say what to build. The ontology owns domain meaning. Code realizes it and never redefines it. Layout and port style are in ADR-004. Layers and the dependency rule are in ADR-001. For where code goes and how to add a port or adapter, use `architecture-howto`.
 
 Tests come first because they are the executable form of the acceptance criteria and the Verification Mapping. Code written before a failing test has nothing proving it is needed.
 
@@ -16,7 +16,7 @@ Tests come first because they are the executable form of the acceptance criteria
    - Add the dependency rule as an import-linter contract (domain imports nothing inward-out, application imports no adapter) so it fails the build.
    - Add `pytest-bdd` and `import-linter` as dev dependencies only.
 2. **Read the Verification Mapping** for the use case in the design specification. It lists, per acceptance criterion, which tests exist at which level. Build a checklist from it. Write nothing that is not on it, and if a needed test is missing from it, fix the mapping first (it is owned by Design).
-3. **Acceptance tests (BDD, outside-in).** Write step definitions for the scenarios. They drive the application only through the driving port, with in-memory driven adapters (ADR-003). They fail first. They stay red until the use case works end to end.
+3. **Acceptance tests (BDD, outside-in).** Write step definitions for the scenarios. They drive the application only through the driving port, with in-memory driven adapters (ADR-003), and observe outcomes the way the design's mapping says. They fail first. They stay red until the use case works end to end. Steps match the scenario text, which is business language; rule IDs sit in comment lines under the tag, which the Gherkin parser ignores. If an outcome cannot be observed through the port and the mapping does not say how, stop and fix the design mapping before writing the step.
 4. **Inside-out, one red-green-refactor cycle at a time**, in this order:
    1. Domain (unit tests): value objects, then the aggregate. Each ontology rule is enforced where the enforcement table says. A test per rule, carrying the rule's AC ID.
    2. Application (unit tests): the service, with a fake or in-memory driven port. Include the failure path (a failing repository is reported, nothing is returned).

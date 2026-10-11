@@ -16,12 +16,14 @@ Start only when the use case has passed its Analysis exit check. The architectur
    - Add a domain invariant (`INV`) only for a condition the ontology cannot express. It cites the ontology rule it relates to.
    - Keep the diagram consistent with the document. Use composition for value objects the aggregate owns.
 2. **Ports and design diagrams.** Name the driving port the use case is offered through, and any driven ports it needs. Respect the dependency rule: the domain imports nothing from the application or adapters, and the application imports no adapter. Draw them next to the use case as `design-<use case id>-<slug>-sequence.puml` (adapter, port, service, domain, driven port) and `design-<use case id>-<slug>-class.puml` (application and adapters; domain classes by name only).
-3. **Decisions.** Record any significant choice as an ADR (`docs/architecture/adr/adr-nnn-<slug>.md`) with Context, Decision, and Consequences.
+3. **Decisions.** Record any significant choice as an ADR, following `adr-authoring`.
 4. **Test mapping.** For each acceptance criterion, decide which tests cover it:
    - acceptance: the Gherkin scenario
    - system: through a driving adapter, one per use case flow
    - integration: an adapter against its port
    - unit (TDD): the domain and application layers
+
+   For each acceptance criterion, check that its outcome can be observed through the driving port (a returned value, a response, or a later use case). If it cannot, record in the mapping how the test observes it (for example, a test-only read of the driven adapter) or name the use case that makes it observable. Do not leave this for Implementation to discover.
 
    Record the mapping in the design specification's Verification Mapping section, one table per use case. Tests carry their IDs as tags or markers when written. Do not write a separate test plan document.
 

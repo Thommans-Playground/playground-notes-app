@@ -12,7 +12,7 @@ Verification does not write features. It answers one question with evidence: doe
 1. **Run the suites, one level at a time**, so a failure points at a layer: unit, integration, system, acceptance. Then the whole suite with coverage.
 2. **Run the checks**: the ontology checks and diagram freshness check (`uv run tools/check.py`), the test suites with coverage, and the import-linter dependency-rule contracts. If a part cannot run (no tests, no contract), that is a failure, not a skip.
 3. **Check coverage by hand.** Every acceptance criterion of the use case must have at least one passing test carrying its ID (`grep -rn "REQ-FR-NOTE-001/AC-" backend/tests`). A criterion with no test is not done.
-4. **Compare against the Verification Mapping.** For each acceptance criterion, confirm tests exist at every level the mapping names (not just one), and that the alternative flows in the use case each have a system test.
+4. **Compare against the Verification Mapping.** Confirm acceptance tests check the observable outcome the scenario states, not only that no error was raised. For each acceptance criterion, confirm tests exist at every level the mapping names (not just one), and that the alternative flows in the use case each have a system test.
 5. **Triage failures by where the fault is**, then fix at the owner, not at the symptom:
    - Code wrong: back to Implementation, add a regression test first. Record a defect `BUG-<DOMAIN>-nnn` only if the fault escaped a prior stage.
    - Design wrong (mapping, port, enforcement): fix the design specification.
