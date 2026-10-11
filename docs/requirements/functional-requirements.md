@@ -38,14 +38,14 @@ Feature: Create Note
   @REQ-FR-NOTE-001/AC-001
   Scenario: Create a Note with Content
     Given a valid Title (ONT-RULE-NOTE-002)
-    And some Content
+    And some Content (ONT-RULE-NOTE-006)
     When the User creates a Note
     Then the Note is created with that Title and Content
 
   @REQ-FR-NOTE-001/AC-002
   Scenario: Create a Note without Content
     Given a valid Title (ONT-RULE-NOTE-002)
-    And no Content
+    And no Content (ONT-RULE-NOTE-006)
     When the User creates a Note
     Then the Note is created with that Title and no Content
 
@@ -59,7 +59,7 @@ Feature: Create Note
   Scenario: A new Note is Active
     Given a valid Title (ONT-RULE-NOTE-002)
     When the User creates a Note
-    Then the new Note is Active (ONT-RULE-NOTE-003)
+    Then the new Note is Active (ONT-RULE-NOTE-003, ONT-RULE-NOTE-004)
 
   @REQ-FR-NOTE-001/AC-005
   Scenario: An invalid Title is rejected

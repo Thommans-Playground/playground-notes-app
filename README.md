@@ -39,15 +39,16 @@ An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain in
 |---|---|---|
 | Functional requirements | What the User needs, with Gherkin acceptance criteria | docs/requirements/functional-requirements.md |
 | Non-functional requirements | Quality needs | docs/requirements/non-functional-requirements.md |
-| Ontology | What exists and what is always true of it: concepts, relationships, rules, lifecycle | docs/ontology/ont-note.ttl |
+| Ontology | What exists and what is always true of it: concepts, relationships, rules, lifecycle | docs/ontology/ont-note.ttl (diagrams generated beside it) |
 | Use cases | Interaction: steps and failure flows | docs/use-cases/ |
-| Analysis diagrams | Views of one use case: sequence, concepts involved, optionally activity | docs/use-cases/analysis-* |
+| Analysis diagrams | Views of one use case: sequence, concepts involved, activity only when needed | docs/use-cases/analysis-* |
 | Ubiquitous language | How we talk | docs/architecture/ul-note-001-ubiquitous-language.md |
 | Design specification | Aggregates, entities, value objects, what enforces each ontology rule, and which tests cover each acceptance criterion | docs/architecture/des-note-001-note-aggregate.* |
 | Design diagrams | Views of one use case: sequence and classes (application and adapters) | docs/use-cases/design-* |
 | Architecture decisions | Layers, ports, adapters, dependency rule, backend layout | docs/architecture/adr/ |
 | Context map | Bounded contexts and how they relate | docs/architecture/ddd-context-map.puml |
 | Kanban | Where each use case stands | docs/kanban.md |
+| Traceability matrix and diagram | Generated views of how rules, criteria, use cases, design, and tests connect, and where they do not | docs/traceability.md, docs/traceability.puml |
 
 ## Diagrams
 
@@ -55,7 +56,17 @@ An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain in
 |---|---|---|
 | A reviewed artifact that others cite: analysis diagrams, design specification, context map | PlantUML, in its own file | `analysis-uc-note-001-create-note-sequence.puml` |
 | An illustration of the point a document is making | Mermaid, inline in the Markdown | The V-cycle sketch below |
-| A view of the ontology | Generated PlantUML | The lifecycle state diagram |
+| A view of the ontology | Generated PlantUML, committed with a "do not edit" header | `ont-note-class.puml`, `ont-note-state.puml` |
+
+The generated ontology diagrams show every concept, relationship, and the status lifecycle. Regenerate them after changing the ontology, and check that they are current:
+
+```
+uv run --with rdflib tools/ontology_to_puml.py          # write
+uv run --with rdflib tools/ontology_to_puml.py --check  # fail if out of date
+uv run --with rdflib --with pyshacl tools/check_ontology.py  # lint, constraints, competency questions
+uv run --with rdflib tools/traceability.py              # write docs/traceability.md and .puml
+uv run --with rdflib tools/traceability.py --check      # fail if out of date or an unknown ontology ID is cited
+```
 
 An inline Mermaid diagram is illustrative and never authoritative. It must not restate a rule, flow, or structure that another artifact owns. If a fact appears only in a Mermaid diagram, move it to its owner.
 
@@ -63,6 +74,7 @@ An inline Mermaid diagram is illustrative and never authoritative. It must not r
 
 A use case moves across the Kanban one stage at a time. A stage is finished when its exit check passes. The steps for Analysis and Design are skills, kept in `.agents/skills/` (and visible to Claude Code through `.claude/skills`):
 
+- `ontology-authoring`: change the ontology, run its checks, and regenerate its diagrams
 - `use-case-analysis`: requirement, ontology, language, use case, and analysis diagrams
 - `use-case-design`: domain model, ports, decisions, and test mapping
 

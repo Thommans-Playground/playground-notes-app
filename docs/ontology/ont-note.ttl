@@ -101,6 +101,7 @@
 :mayBecome a owl:ObjectProperty ;
     :artifactId "ONT-REL-NOTE-005" ;
     rdfs:comment "A Note in the first status may move to the second." ;
+    :rule :RuleNote005 ;
     rdfs:domain :NoteStatus ;
     rdfs:range :NoteStatus .
 
@@ -121,6 +122,7 @@
     rdfs:label "Active" ;
     rdfs:comment "A Note the User is currently working with." ;
     :isInitial true ;
+    :rule :RuleNote003 ;
     :mayBecome :Archived, :Deleted .
 
 :Archived a :NoteStatus ;

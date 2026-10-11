@@ -7,7 +7,7 @@ title UC-NOTE-001 - Create Note - Design Classes
 
 package "Domain (DES-NOTE-001)" <<Domain>> {
     class Note <<Aggregate Root>>
-    class InvalidTitle <<Domain Error>> #FFF1F2;line:#E11D48
+    class InvalidTitle <<Domain Error>> #FFF1F2;line:E11D48
 }
 
 package "Application" <<Application>> {
@@ -28,15 +28,15 @@ package "Application" <<Application>> {
         + add(note: Note): None
     }
 
-    class NoteNotKept <<Application Error>> #FFF1F2;line:#E11D48
+    class NoteNotKept <<Application Error>> #FFF1F2;line:E11D48
 }
 
 package "Adapters" <<Adapters>> {
-    class HttpNotesRouter <<Driving Adapter>> #F0FDFA;line:#0D9488 {
+    class HttpNotesRouter <<Driving Adapter>> #F0FDFA;line:0D9488 {
         + POST /notes
     }
 
-    class InMemoryNoteRepository <<Driven Adapter>> #F0FDFA;line:#0D9488
+    class InMemoryNoteRepository <<Driven Adapter>> #F0FDFA;line:0D9488
 }
 
 HttpNotesRouter -up-> CreateNoteUseCase : calls
