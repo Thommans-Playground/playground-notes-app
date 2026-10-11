@@ -1,0 +1,17 @@
+@startuml context-map
+title ADR-002 - Notes Application - DDD Context Map
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+package "Note Management BC" {
+    component "Note Aggregate\n(Root: Note)" as Note
+}
+
+note bottom of Note
+  Decision: one bounded context, Note Management.
+  Further contexts are added when
+  a requirement needs them.
+end note
+
+@enduml

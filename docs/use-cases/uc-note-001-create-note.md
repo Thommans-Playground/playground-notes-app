@@ -6,7 +6,7 @@
 
 ## Goal
 
-Create a new note with a valid title and optional content.
+A User creates a Note.
 
 ## Primary Actor
 
@@ -14,47 +14,34 @@ User
 
 ## Preconditions
 
-None for this initial single-user version.
+None.
 
 ## Main Flow
 
-1. User provides a title and optional content.
-2. System removes leading and trailing whitespace from the title.
-3. System validates that the normalized title is non-empty.
-4. System assigns a unique Note identifier.
-5. System creates the Note with status ACTIVE.
-6. System persists the Note.
-7. System returns the created Note identifier.
+1. The User provides a Title and, optionally, Content.
+2. The system normalizes and validates the Title (ONT-RULE-NOTE-002).
+3. The system assigns the Note a Note Identifier (ONT-RULE-NOTE-001).
+4. The system creates the Note as Active (ONT-RULE-NOTE-003).
+5. The system keeps the Note.
+6. The system returns the Note Identifier to the User.
 
 ## Alternative Flows
 
-**AF-001: Empty Title**
+**AF-001: Invalid Title** (REQ-FR-NOTE-001/AC-005)
 
-- The supplied title is empty or contains only whitespace.
-- The system rejects the request.
+At step 2, the Title is not valid.
+
 - No Note is created.
+- The system tells the User the Title is not valid.
 
-**AF-002: Persistence Failure**
+**AF-002: Note cannot be kept** (REQ-FR-NOTE-001/AC-006)
 
-- The system cannot save the Note.
-- The operation fails without reporting successful creation.
+At step 5, the system cannot keep the Note.
 
-**AF-003: Invalid Title**
-
-If the normalized title is empty:
-- Reject the request.
-- Do not create or persist a Note.
-- Return a validation error.
+- No Note is created.
+- The system tells the User that creation failed.
 
 ## Postconditions
 
-- A new Note exists with a unique identifier.
-- The Note has an ACTIVE status.
-- The Note retains its supplied title and content.
-
-## Related Artifacts
-
-- REQ-FR-NOTE-001
-- ONT-NOTE-001
-- INV-NOTE-001
-- INV-NOTE-002
+- On success, the Note exists with the Normalized Title and the Content provided.
+- On any alternative flow, no Note exists.

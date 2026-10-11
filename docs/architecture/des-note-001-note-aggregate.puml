@@ -1,14 +1,14 @@
 @startuml Notes Aggregate
-title DDD-NOTE-001 - Note Aggregate
+title DES-NOTE-001 - Note Aggregate
 
 skinparam classAttributeIconSize 0
 
-package "Notes Management BC" {
+package "Note Management BC" {
 
   class Note <<Aggregate Root>> {
     - id: NoteId
     - title: NoteTitle
-    - content: String
+    - content: String?
     - status: NoteStatus
     --
     + create(title, content): Note
@@ -34,8 +34,7 @@ package "Notes Management BC" {
 }
 
 note right of NoteTitle
-  Must be non-empty
-  ONT-NOTE-001
+  Enforces ONT-RULE-NOTE-002
 end note
 
 @enduml

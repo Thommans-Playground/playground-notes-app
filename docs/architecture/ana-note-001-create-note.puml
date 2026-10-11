@@ -1,0 +1,26 @@
+@startuml ANA-NOTE-001
+title ANA-NOTE-001 - Create Note (UC-NOTE-001)
+
+start
+
+:Receive Title and Content;
+:Normalize and validate Title (ONT-RULE-NOTE-002);
+
+if (Title valid?) then (No)
+    :Tell the User the Title is not valid;
+    stop
+else (Yes)
+    :Assign Note Identifier (ONT-RULE-NOTE-001);
+    :Create Note as Active (ONT-RULE-NOTE-003);
+endif
+
+:Keep the Note;
+
+if (Note kept?) then (Yes)
+    :Return Note Identifier;
+else (No)
+    :Tell the User that creation failed;
+endif
+
+stop
+@enduml

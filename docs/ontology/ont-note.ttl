@@ -1,0 +1,203 @@
+@prefix :     <http://example.org/notes#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# Ontology: Note Management
+# Status: Draft
+# Language: UL-NOTE-001
+#
+# Competency questions. The ontology must be able to answer these.
+#   CQ-1  What is the status of a newly created Note?            Active
+#   CQ-2  Which statuses may an Archived Note become?            Active, Deleted
+#   CQ-3  Which statuses may a Deleted Note become?              None
+#   CQ-4  How many Titles does a Note have?                      Exactly one
+#   CQ-5  How many Contents does a Note have?                    At most one
+#
+# Deferred: a Note is owned by a User (ownedBy). Not part of this version.
+
+<http://example.org/notes> a owl:Ontology ;
+    rdfs:label "Note Management Ontology" .
+
+# ---------------------------------------------------------------------------
+# Annotation properties
+# ---------------------------------------------------------------------------
+
+:artifactId a owl:AnnotationProperty ;
+    rdfs:comment "The artifact ID of the element, as used by other documents." .
+
+:rule a owl:AnnotationProperty ;
+    rdfs:comment "Links a constraint to the rule it enforces." .
+
+# ---------------------------------------------------------------------------
+# Concepts
+# ---------------------------------------------------------------------------
+
+:Note a owl:Class ;
+    :artifactId "ONT-NOTE-001" ;
+    rdfs:label "Note" ;
+    rdfs:comment "Written information that a User keeps." .
+
+:Title a owl:Class ;
+    :artifactId "ONT-NOTE-002" ;
+    rdfs:label "Title" ;
+    rdfs:comment "The short heading by which a User names a Note." .
+
+:NormalizedTitle a owl:Class ;
+    :artifactId "ONT-NOTE-003" ;
+    rdfs:subClassOf :Title ;
+    rdfs:label "Normalized Title" ;
+    rdfs:comment "A Title with no leading or trailing whitespace and at least one other character." .
+
+:Content a owl:Class ;
+    :artifactId "ONT-NOTE-004" ;
+    rdfs:label "Content" ;
+    rdfs:comment "The free text body of a Note." .
+
+:NoteIdentifier a owl:Class ;
+    :artifactId "ONT-NOTE-005" ;
+    rdfs:label "Note Identifier" ;
+    rdfs:comment "The value that distinguishes one Note from every other Note for as long as it exists." .
+
+:NoteStatus a owl:Class ;
+    :artifactId "ONT-NOTE-006" ;
+    rdfs:label "Status" ;
+    rdfs:comment "The position of a Note in its lifecycle." ;
+    owl:equivalentClass [ a owl:Class ; owl:oneOf ( :Active :Archived :Deleted ) ] .
+
+:User a owl:Class ;
+    :artifactId "ONT-NOTE-007" ;
+    rdfs:label "User" ;
+    rdfs:comment "The person who creates and manages Notes." .
+
+# ---------------------------------------------------------------------------
+# Relationships
+# ---------------------------------------------------------------------------
+
+:hasIdentifier a owl:ObjectProperty ;
+    :artifactId "ONT-REL-NOTE-001" ;
+    rdfs:domain :Note ;
+    rdfs:range :NoteIdentifier .
+
+:hasTitle a owl:ObjectProperty ;
+    :artifactId "ONT-REL-NOTE-002" ;
+    rdfs:domain :Note ;
+    rdfs:range :NormalizedTitle .
+
+:hasContent a owl:ObjectProperty ;
+    :artifactId "ONT-REL-NOTE-003" ;
+    rdfs:domain :Note ;
+    rdfs:range :Content .
+
+:hasStatus a owl:ObjectProperty ;
+    :artifactId "ONT-REL-NOTE-004" ;
+    rdfs:domain :Note ;
+    rdfs:range :NoteStatus .
+
+:mayBecome a owl:ObjectProperty ;
+    :artifactId "ONT-REL-NOTE-005" ;
+    rdfs:comment "A Note in the first status may move to the second." ;
+    rdfs:domain :NoteStatus ;
+    rdfs:range :NoteStatus .
+
+:text a owl:DatatypeProperty ;
+    rdfs:domain :Title, :Content ;
+    rdfs:range xsd:string .
+
+:isInitial a owl:DatatypeProperty ;
+    rdfs:comment "True for the status a newly created Note has." ;
+    rdfs:domain :NoteStatus ;
+    rdfs:range xsd:boolean .
+
+# ---------------------------------------------------------------------------
+# Statuses and lifecycle
+# ---------------------------------------------------------------------------
+
+:Active a :NoteStatus ;
+    rdfs:label "Active" ;
+    rdfs:comment "A Note the User is currently working with." ;
+    :isInitial true ;
+    :mayBecome :Archived, :Deleted .
+
+:Archived a :NoteStatus ;
+    rdfs:label "Archived" ;
+    rdfs:comment "A Note the User has set aside but kept." ;
+    :isInitial false ;
+    :mayBecome :Active, :Deleted .
+
+:Deleted a :NoteStatus ;
+    rdfs:label "Deleted" ;
+    rdfs:comment "A Note the User has removed." ;
+    :isInitial false .
+
+# ---------------------------------------------------------------------------
+# Rules
+# ---------------------------------------------------------------------------
+
+:RuleNote001 a owl:NamedIndividual ;
+    :artifactId "ONT-RULE-NOTE-001" ;
+    rdfs:comment "Every Note has exactly one Note Identifier. It is unique and never changes." .
+
+:RuleNote002 a owl:NamedIndividual ;
+    :artifactId "ONT-RULE-NOTE-002" ;
+    rdfs:comment "Every Note has exactly one Title, and it is a Normalized Title. This holds when a Note is created and whenever its Title changes." .
+
+:RuleNote003 a owl:NamedIndividual ;
+    :artifactId "ONT-RULE-NOTE-003" ;
+    rdfs:comment "A newly created Note has the initial status, Active." .
+
+:RuleNote004 a owl:NamedIndividual ;
+    :artifactId "ONT-RULE-NOTE-004" ;
+    rdfs:comment "Every Note has exactly one status, and it is one of Active, Archived or Deleted." .
+
+:RuleNote005 a owl:NamedIndividual ;
+    :artifactId "ONT-RULE-NOTE-005" ;
+    rdfs:comment "A Note changes status only along a mayBecome relationship." .
+
+:RuleNote006 a owl:NamedIndividual ;
+    :artifactId "ONT-RULE-NOTE-006" ;
+    rdfs:comment "A Note has at most one Content." .
+
+# ---------------------------------------------------------------------------
+# Constraints (SHACL)
+# Rules 003 and 005 describe change over time and are verified in the domain tests.
+# Rule 001's "never changes" is likewise verified there.
+# ---------------------------------------------------------------------------
+
+:NoteShape a sh:NodeShape ;
+    sh:targetClass :Note ;
+    sh:property [
+        sh:path :hasIdentifier ;
+        :rule :RuleNote001 ;
+        sh:minCount 1 ; sh:maxCount 1
+    ] ;
+    sh:property [
+        sh:path :hasTitle ;
+        :rule :RuleNote002 ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:class :NormalizedTitle
+    ] ;
+    sh:property [
+        sh:path :hasStatus ;
+        :rule :RuleNote004 ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:in ( :Active :Archived :Deleted )
+    ] ;
+    sh:property [
+        sh:path :hasContent ;
+        :rule :RuleNote006 ;
+        sh:maxCount 1
+    ] .
+
+:NormalizedTitleShape a sh:NodeShape ;
+    sh:targetClass :NormalizedTitle ;
+    sh:property [
+        sh:path :text ;
+        :rule :RuleNote002 ;
+        sh:minCount 1 ; sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^\\S(.*\\S)?$" ;
+        sh:flags "s"
+    ] .
