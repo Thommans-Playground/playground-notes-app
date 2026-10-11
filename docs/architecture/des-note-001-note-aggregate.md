@@ -99,8 +99,9 @@ Which tests cover each acceptance criterion. The tests carry their IDs as tags o
 | REQ-FR-NOTE-001/AC-002 | Scenario | | | Note.create with no Content |
 | REQ-FR-NOTE-001/AC-003 | Scenario | Response carries the Note Identifier | | NoteId.generate returns distinct values |
 | REQ-FR-NOTE-001/AC-004 | Scenario | | | Note.create sets the initial status |
-| REQ-FR-NOTE-001/AC-005 | Scenario | AF-001: invalid Title is refused | | NoteTitle.of with valid, blank, empty, padded, and inner-space Titles; the service does not call the repository |
+| REQ-FR-NOTE-001/AC-005 | Scenario | AF-001: invalid Title is refused | | NoteTitle.of with empty and whitespace-only Titles raises InvalidTitle; the service does not call the repository |
 | REQ-FR-NOTE-001/AC-006 | Scenario | AF-002: failure to keep is reported | | The service reports a failing repository and returns no identifier |
+| REQ-FR-NOTE-001/AC-007 | Scenario | | | NoteTitle.of removes leading and trailing whitespace and keeps inner spaces |
 
 Ontology check, as a unit test: a created Note, converted to RDF, conforms to the shapes in ont-note.ttl (ONT-RULE-NOTE-001, 002, 004, 006).
 

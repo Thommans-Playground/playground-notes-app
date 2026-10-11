@@ -9,7 +9,7 @@ A view of how the artifacts connect. Regenerate it with `uv run --with rdflib to
 | Rule | Statement | Governs | Cited by criteria | Cited by use cases | Enforced by (design) |
 |---|---|---|---|---|---|
 | ONT-RULE-NOTE-001 | Every Note has exactly one Note Identifier. It is unique and never changes. | Note.hasIdentifier (constraint) | REQ-FR-NOTE-001/AC-003 | UC-NOTE-001 | NoteId.generate; the aggregate exposes no way to change the id |
-| ONT-RULE-NOTE-002 | Every Note has exactly one Title, and it is a Normalized Title. This holds when a Note is created and whenever its Title changes. | Normalized Title.text (constraint)<br>Note.hasTitle (constraint) | REQ-FR-NOTE-001/AC-001<br>REQ-FR-NOTE-001/AC-002<br>REQ-FR-NOTE-001/AC-003<br>REQ-FR-NOTE-001/AC-004<br>REQ-FR-NOTE-001/AC-005<br>REQ-FR-NOTE-001/AC-006 | UC-NOTE-001 | NoteTitle.of |
+| ONT-RULE-NOTE-002 | Every Note has exactly one Title, and it is a Normalized Title. This holds when a Note is created and whenever its Title changes. | Normalized Title.text (constraint)<br>Note.hasTitle (constraint) | REQ-FR-NOTE-001/AC-001<br>REQ-FR-NOTE-001/AC-002<br>REQ-FR-NOTE-001/AC-003<br>REQ-FR-NOTE-001/AC-004<br>REQ-FR-NOTE-001/AC-005<br>REQ-FR-NOTE-001/AC-006<br>REQ-FR-NOTE-001/AC-007 | UC-NOTE-001 | NoteTitle.of |
 | ONT-RULE-NOTE-003 | A newly created Note has the initial status, Active. | Active (lifecycle) | REQ-FR-NOTE-001/AC-004 | UC-NOTE-001 | Note.create |
 | ONT-RULE-NOTE-004 | Every Note has exactly one status, and it is one of Active, Archived or Deleted. | Note.hasStatus (constraint) | REQ-FR-NOTE-001/AC-004 | UC-NOTE-001 | NoteStatus enumeration |
 | ONT-RULE-NOTE-005 | A Note changes status only along a mayBecome relationship. | mayBecome (lifecycle) | none | none | The behavior that changes status, designed with each use case |
@@ -25,6 +25,7 @@ A view of how the artifacts connect. Regenerate it with `uv run --with rdflib to
 | REQ-FR-NOTE-001/AC-004 | ONT-RULE-NOTE-002<br>ONT-RULE-NOTE-003<br>ONT-RULE-NOTE-004 | UC-NOTE-001 | yes | none |
 | REQ-FR-NOTE-001/AC-005 | ONT-RULE-NOTE-002 | UC-NOTE-001 | yes | none |
 | REQ-FR-NOTE-001/AC-006 | ONT-RULE-NOTE-002 | UC-NOTE-001 | yes | none |
+| REQ-FR-NOTE-001/AC-007 | ONT-RULE-NOTE-002 | UC-NOTE-001 | yes | none |
 
 ## Gaps
 
@@ -32,7 +33,7 @@ A view of how the artifacts connect. Regenerate it with `uv run --with rdflib to
 - **Rules with no enforcement in the design:** none
 - **Acceptance criteria cited by no use case:** none
 - **Acceptance criteria missing from the design mapping:** none
-- **Acceptance criteria with no tests:** REQ-FR-NOTE-001/AC-001, REQ-FR-NOTE-001/AC-002, REQ-FR-NOTE-001/AC-003, REQ-FR-NOTE-001/AC-004, REQ-FR-NOTE-001/AC-005, REQ-FR-NOTE-001/AC-006
+- **Acceptance criteria with no tests:** REQ-FR-NOTE-001/AC-001, REQ-FR-NOTE-001/AC-002, REQ-FR-NOTE-001/AC-003, REQ-FR-NOTE-001/AC-004, REQ-FR-NOTE-001/AC-005, REQ-FR-NOTE-001/AC-006, REQ-FR-NOTE-001/AC-007
 
 ## Unknown ontology IDs
 

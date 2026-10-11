@@ -19,7 +19,7 @@ None.
 ## Main Flow
 
 1. The User provides a Title and, optionally, Content (REQ-FR-NOTE-001/AC-001, REQ-FR-NOTE-001/AC-002; ONT-RULE-NOTE-006).
-2. The system normalizes and validates the Title (ONT-RULE-NOTE-002).
+2. The system normalizes and validates the Title (REQ-FR-NOTE-001/AC-007; ONT-RULE-NOTE-002).
 3. The system assigns the Note a Note Identifier (ONT-RULE-NOTE-001).
 4. The system creates the Note as Active (REQ-FR-NOTE-001/AC-004; ONT-RULE-NOTE-003, ONT-RULE-NOTE-004).
 5. The system keeps the Note.

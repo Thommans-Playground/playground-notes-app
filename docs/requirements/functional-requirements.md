@@ -36,43 +36,61 @@ Out of scope:
 Feature: Create Note
 
   @REQ-FR-NOTE-001/AC-001
+  # ONT-RULE-NOTE-002, ONT-RULE-NOTE-006
   Scenario: Create a Note with Content
-    Given a valid Title (ONT-RULE-NOTE-002)
-    And some Content (ONT-RULE-NOTE-006)
+    Given the Title "Shopping list"
+    And the Content "Milk, eggs, bread"
     When the User creates a Note
     Then the Note is created with that Title and Content
 
   @REQ-FR-NOTE-001/AC-002
+  # ONT-RULE-NOTE-002, ONT-RULE-NOTE-006
   Scenario: Create a Note without Content
-    Given a valid Title (ONT-RULE-NOTE-002)
-    And no Content (ONT-RULE-NOTE-006)
+    Given the Title "Shopping list"
+    And no Content
     When the User creates a Note
     Then the Note is created with that Title and no Content
 
   @REQ-FR-NOTE-001/AC-003
+  # ONT-RULE-NOTE-001, ONT-RULE-NOTE-002
   Scenario: A new Note is identifiable
-    Given a valid Title (ONT-RULE-NOTE-002)
+    Given the Title "Shopping list"
     When the User creates a Note
-    Then the User receives the Note Identifier of the new Note (ONT-RULE-NOTE-001)
+    Then the User receives the Note Identifier of the new Note
 
   @REQ-FR-NOTE-001/AC-004
+  # ONT-RULE-NOTE-002, ONT-RULE-NOTE-003, ONT-RULE-NOTE-004
   Scenario: A new Note is Active
-    Given a valid Title (ONT-RULE-NOTE-002)
+    Given the Title "Shopping list"
     When the User creates a Note
-    Then the new Note is Active (ONT-RULE-NOTE-003, ONT-RULE-NOTE-004)
+    Then the new Note is Active
 
   @REQ-FR-NOTE-001/AC-005
-  Scenario: An invalid Title is rejected
-    Given a Title that is not valid (ONT-RULE-NOTE-002)
+  # ONT-RULE-NOTE-002
+  Scenario Outline: A Title with no visible characters is rejected
+    Given the Title <title>
     When the User creates a Note
     Then no Note is created
     And the User is told the Title is not valid
 
+    Examples:
+      | title   |
+      | ""      |
+      | "   "   |
+
   @REQ-FR-NOTE-001/AC-006
+  # ONT-RULE-NOTE-002
   Scenario: A failure to keep the Note is reported
-    Given a valid Title (ONT-RULE-NOTE-002)
+    Given the Title "Shopping list"
     And the system cannot keep Notes
     When the User creates a Note
     Then no Note is created
     And the User is told that creation failed
+
+  @REQ-FR-NOTE-001/AC-007
+  # ONT-RULE-NOTE-002
+  Scenario: Whitespace around a Title is removed
+    Given the Title "  Shopping list  "
+    When the User creates a Note
+    Then the Note is created with the Title "Shopping list"
 ```

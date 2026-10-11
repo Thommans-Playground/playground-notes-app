@@ -51,7 +51,7 @@
     :artifactId "ONT-NOTE-003" ;
     rdfs:subClassOf :Title ;
     rdfs:label "Normalized Title" ;
-    rdfs:comment "A Title with no leading or trailing whitespace and at least one other character." .
+    rdfs:comment "A Title with no leading or trailing whitespace and at least one other character. Normalizing a Title removes its leading and trailing whitespace and keeps the rest unchanged. A Title with no character other than whitespace cannot be normalized." .
 
 :Content a owl:Class ;
     :artifactId "ONT-NOTE-004" ;
