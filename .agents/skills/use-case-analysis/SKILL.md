@@ -21,7 +21,7 @@ Follow these steps in order. The ontology (`docs/ontology/ont-<context>.ttl`) is
    - `class`: only the concepts the use case touches, with `ONT` and `ONT-REL` IDs. It is an excerpt of the generated `docs/ontology/ont-note-class.puml` and adds nothing to the ontology. Regenerate the ontology diagrams after any ontology change. Required.
    - `activity`: only when the flow has something the sequence diagram cannot show, such as loops, parallel branches, or many nested decisions. Do not draw it for a simple flow, because it would redraw the use case.
    - No boundary, control, or repository classes. Design decides those.
-6. **Review.** Regenerate the traceability matrix (`uv run --with rdflib tools/traceability.py`) and read its Gaps section. Then check each of these:
+6. **Review.** Check each of these:
    - Every new rule is cited by at least one acceptance criterion.
    - Every acceptance criterion is covered by a step or an alternative flow.
    - No rule text is restated in the requirement, use case, or diagrams.
@@ -30,8 +30,7 @@ Follow these steps in order. The ontology (`docs/ontology/ont-<context>.ttl`) is
 
 ## Exit check
 
-- `uv run tools/check.py` passes (ontology checks, current diagrams, current traceability).
-- Every gap in `docs/traceability.md` for this use case is closed or accepted.
+- The ontology checks pass and its generated diagrams are current (see `ontology-authoring`).
 - The requirement and the use case are reviewed.
 - Update `docs/kanban.md`: move the card to Design.
 

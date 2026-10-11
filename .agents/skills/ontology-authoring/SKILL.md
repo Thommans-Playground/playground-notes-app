@@ -48,7 +48,7 @@ uv run --with rdflib tools/ontology_to_puml.py --check
 
 ## After the change
 
-Find what cites the IDs you changed (`uv run --with rdflib tools/traceability.py --impact ONT-RULE-NOTE-002`) and review every artifact it lists: requirements, use cases, diagrams, and the design specification's enforcement table. A changed rule reopens the Kanban card of any use case that cites it.
+Search for the IDs you changed (`grep -rn "ONT-RULE-NOTE-002" docs backend .agents`) and review every artifact that cites them: requirements, use cases, diagrams, and the design specification's enforcement table. A changed rule reopens the Kanban card of any use case that cites it.
 
 ## Do not
 

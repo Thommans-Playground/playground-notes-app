@@ -22,9 +22,9 @@ Tests come first because they are the executable form of the acceptance criteria
    2. Application (unit tests): the service, with a fake or in-memory driven port. Include the failure path (a failing repository is reported, nothing is returned).
    3. Driven adapters (integration tests): each adapter against its port, using the shared contract tests so every adapter is held to the same behavior (ADR-003).
    4. Driving adapters (system tests): HTTP or MCP, one per use case flow including alternative flows.
-5. **Tag every test with the ID it covers**: `@pytest.mark.ac("REQ-FR-NOTE-001/AC-003")` (one or more). The traceability tool finds tests by these IDs. An untagged test is invisible to the matrix.
+5. **Tag every test with the ID it covers**: `@pytest.mark.ac("REQ-FR-NOTE-001/AC-003")` (one or more). The tag keeps each test tied to its criterion, and lets a later tool trace them.
 6. **Refactor with the suite green.** Keep adapters thin: they translate and delegate. A domain rule found in an adapter or the service moves into the domain.
-7. **Spec feedback.** If implementation shows the spec is wrong or incomplete, stop and fix the owner artifact first (ontology, requirement, use case, or design). Use `tools/traceability.py --impact <ID>` to find what else cites it, regenerate its checks, then continue. Do not patch around it in code or tests.
+7. **Spec feedback.** If implementation shows the spec is wrong or incomplete, stop and fix the owner artifact first (ontology, requirement, use case, or design). Search for the ID (`grep -rn <ID> docs backend`) to find what else cites it, regenerate its checks, then continue. Do not patch around it in code or tests.
 
 ## Exit check
 

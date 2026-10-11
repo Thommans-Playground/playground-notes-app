@@ -1,6 +1,6 @@
 ---
 name: use-case-verification
-description: Run the Verification stage for a use case in this project: run every check, confirm each acceptance criterion is covered by passing tests at the levels the design promised, close or accept traceability gaps, and close the Kanban card. Use after Implementation is complete, when moving a card from Verification to Done, or when asked whether a use case is finished, verified, or ready to close.
+description: Run the Verification stage for a use case in this project: run every check, confirm each acceptance criterion is covered by passing tests at the levels the design promised, check coverage by hand against the design mapping, and close the Kanban card. Use after Implementation is complete, when moving a card from Verification to Done, or when asked whether a use case is finished, verified, or ready to close.
 ---
 
 # Use Case Verification
@@ -10,8 +10,8 @@ Verification does not write features. It answers one question with evidence: doe
 ## Steps
 
 1. **Run the suites, one level at a time**, so a failure points at a layer: unit, integration, system, acceptance. Then the whole suite with coverage.
-2. **Run the gate**: `uv run tools/check.py --verify`. It runs the ontology checks, the diagram and traceability freshness checks, the test suites with coverage, the import-linter dependency-rule contracts, and fails if any acceptance criterion has no tests. If a part cannot run (no tests, no contract), that is a failure, not a skip.
-3. **Read the traceability Gaps section.** For this use case, "Acceptance criteria with no tests" must be empty. Every other gap is closed, or accepted with a one-line reason recorded in the use case's Kanban note or an ADR. Do not hide a gap by editing the generated file.
+2. **Run the checks**: the ontology checks and diagram freshness check (`uv run tools/check.py`), the test suites with coverage, and the import-linter dependency-rule contracts. If a part cannot run (no tests, no contract), that is a failure, not a skip.
+3. **Check coverage by hand.** Every acceptance criterion of the use case must have at least one passing test carrying its ID (`grep -rn "REQ-FR-NOTE-001/AC-" backend/tests`). A criterion with no test is not done.
 4. **Compare against the Verification Mapping.** For each acceptance criterion, confirm tests exist at every level the mapping names (not just one), and that the alternative flows in the use case each have a system test.
 5. **Triage failures by where the fault is**, then fix at the owner, not at the symptom:
    - Code wrong: back to Implementation, add a regression test first. Record a defect `BUG-<DOMAIN>-nnn` only if the fault escaped a prior stage.
@@ -22,9 +22,8 @@ Verification does not write features. It answers one question with evidence: doe
 
 ## Exit check
 
-- `uv run tools/check.py --verify` passes.
+- The ontology checks, test suites and dependency-rule contracts pass.
 - Every acceptance criterion of the use case has passing tests at each mapped level.
-- No unexplained traceability gap remains for this use case.
 - Report to the user: what ran, counts passed and failed, coverage, any accepted gaps.
 - Update `docs/kanban.md`: move the card to Done.
 
@@ -32,5 +31,5 @@ Verification does not write features. It answers one question with evidence: doe
 
 - Close a card on a green build alone. Green with no test for a criterion proves nothing about it.
 - Weaken, skip, or delete a test to make the suite pass.
-- Edit generated files (`traceability.*`, `ont-note-*.puml`) by hand.
+- Edit generated files (`ont-note-*.puml`) by hand.
 - Add features. New behavior is a new card.
