@@ -11,6 +11,10 @@ from uuid import UUID, uuid4
 
 @dataclass(frozen=True)
 class NoteId:
+    """
+    A value object representing a unique identifier for a Note.
+    """
+
     value: UUID
 
     @classmethod
