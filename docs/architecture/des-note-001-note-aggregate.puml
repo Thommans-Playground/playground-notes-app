@@ -1,7 +1,6 @@
 @startuml Notes Aggregate
+!include theme.puml
 title DES-NOTE-001 - Note Aggregate
-
-skinparam classAttributeIconSize 0
 
 package "Note Management BC" {
 
@@ -11,15 +10,19 @@ package "Note Management BC" {
     - content: String?
     - status: NoteStatus
     --
-    + create(title, content): Note
+    + {static} create(title, content): Note
   }
 
   class NoteId <<Value Object>> {
     + value: UUID
+    --
+    + {static} generate(): NoteId
   }
 
   class NoteTitle <<Value Object>> {
     + value: String
+    --
+    + {static} of(raw): NoteTitle
   }
 
   enum NoteStatus {
@@ -28,9 +31,12 @@ package "Note Management BC" {
     DELETED
   }
 
+  class InvalidTitle <<Domain Error>>
+
   Note *-- NoteId
   Note *-- NoteTitle
-  Note --> NoteStatus
+  Note *-- NoteStatus
+  NoteTitle ..> InvalidTitle : raises
 }
 
 note right of NoteTitle

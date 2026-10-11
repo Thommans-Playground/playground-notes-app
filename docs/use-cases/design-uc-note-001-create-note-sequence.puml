@@ -1,0 +1,49 @@
+@startuml design-uc-note-001-create-note-sequence
+!include ../architecture/theme.puml
+
+title UC-NOTE-001 - Create Note - Design Sequence
+
+actor User
+participant "HttpNotesRouter\n<<driving adapter>>" as Http
+participant "CreateNoteUseCase\n<<driving port>>" as InPort
+participant "CreateNote\n<<application service>>" as Service
+participant "Note\n<<domain>>" as Note
+participant "NoteRepository\n<<driven port>>" as OutPort
+participant "InMemoryNoteRepository\n<<driven adapter>>" as Repo
+
+User -> Http : POST /notes {title, content}
+activate Http #EEF2FF
+Http -> InPort : execute(CreateNoteCommand)
+InPort -> Service : execute(CreateNoteCommand)
+activate Service #F8FAFC
+
+Service -> Note : create(title, content)\nNoteTitle.of: ONT-RULE-NOTE-002\nNoteId.generate: ONT-RULE-NOTE-001\nstatus Active: ONT-RULE-NOTE-003
+
+alt #FFF1F2 InvalidTitle (AF-001, AC-005)
+    Note --> Service : raises InvalidTitle
+    Service --> InPort : InvalidTitle
+    InPort --> Http : InvalidTitle
+    Http --> User : 422, title is not valid
+else #F0FDF4 Note created
+    Note --> Service : Note
+    Service -> OutPort : add(note)
+    OutPort -> Repo : add(note)
+
+    alt #FFF1F2 NoteNotKept (AF-002, AC-006)
+        Repo --> OutPort : raises NoteNotKept
+        OutPort --> Service : NoteNotKept
+        Service --> InPort : NoteNotKept
+        InPort --> Http : NoteNotKept
+        Http --> User : 500, creation failed
+    else #F0FDF4 kept
+        Repo --> OutPort : ok
+        OutPort --> Service : ok
+        Service --> InPort : NoteId
+        InPort --> Http : NoteId
+        Http --> User : 201 {id}
+    end
+end
+
+deactivate Service #F8FAFC
+deactivate Http #EEF2FF
+@enduml

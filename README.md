@@ -31,7 +31,7 @@ An artifact ID is `<TYPE>-<DOMAIN>-<NUMBER>`, or `<TYPE>-<SUBTYPE>-<DOMAIN>-<NUM
 
 An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain invariant (`INV`) is a condition the aggregate must protect that the ontology cannot express, and it refers to the ontology rule it relates to and never restates it.
 
-**Files.** Analysis diagrams are named `analysis-<use case id>-<slug>-<kind>.puml`, where kind is `sequence`, `class` or `activity`, and sit beside their use case. A document that holds one artifact is named `<id>-<slug>`, in lowercase (`uc-note-001-create-note.md`). A document that holds many artifacts has a plain name (`functional-requirements.md`, `ont-note.ttl`).
+**Files.** Analysis and design diagrams are named `analysis-` or `design-` followed by `<use case id>-<slug>-<kind>.puml`, where kind is `sequence`, `class` or `activity`, and sit beside their use case. A document that holds one artifact is named `<id>-<slug>`, in lowercase (`uc-note-001-create-note.md`). A document that holds many artifacts has a plain name (`functional-requirements.md`, `ont-note.ttl`).
 
 ## Who owns what
 
@@ -43,8 +43,10 @@ An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain in
 | Use cases | Interaction: steps and failure flows | docs/use-cases/ |
 | Analysis diagrams | Views of one use case: sequence, concepts involved, optionally activity | docs/use-cases/analysis-* |
 | Ubiquitous language | How we talk | docs/architecture/ul-note-001-ubiquitous-language.md |
-| Design specification | Aggregates, entities, value objects, and what enforces each ontology rule | docs/architecture/des-note-001-note-aggregate.* |
-| Architecture decisions | Layers, ports, adapters, dependency rule, context map | docs/architecture/adr-* |
+| Design specification | Aggregates, entities, value objects, what enforces each ontology rule, and which tests cover each acceptance criterion | docs/architecture/des-note-001-note-aggregate.* |
+| Design diagrams | Views of one use case: sequence and classes (application and adapters) | docs/use-cases/design-* |
+| Architecture decisions | Layers, ports, adapters, dependency rule, backend layout | docs/architecture/adr/ |
+| Context map | Bounded contexts and how they relate | docs/architecture/ddd-context-map.puml |
 | Kanban | Where each use case stands | docs/kanban.md |
 
 ## Diagrams

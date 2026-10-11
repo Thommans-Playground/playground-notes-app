@@ -1,5 +1,6 @@
 @startuml context-map
-title ADR-002 - Notes Application - DDD Context Map
+!include theme.puml
+title Notes Application - DDD Context Map
 
 skinparam componentStyle rectangle
 skinparam packageStyle rectangle

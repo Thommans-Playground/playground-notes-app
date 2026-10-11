@@ -1,0 +1,51 @@
+@startuml design-uc-note-001-create-note-class
+title UC-NOTE-001 - Create Note - Design Classes
+
+!include ../architecture/theme.puml
+
+' Domain classes are defined in DES-NOTE-001 and appear here by name only.
+
+package "Domain (DES-NOTE-001)" <<Domain>> {
+    class Note <<Aggregate Root>>
+    class InvalidTitle <<Domain Error>> #FFF1F2;line:#E11D48
+}
+
+package "Application" <<Application>> {
+    interface CreateNoteUseCase <<Driving Port>> {
+        + execute(command: CreateNoteCommand): NoteId
+    }
+
+    class CreateNoteCommand <<Command>> {
+        + title: str
+        + content: str?
+    }
+
+    class CreateNote <<Application Service>> {
+        + execute(command: CreateNoteCommand): NoteId
+    }
+
+    interface NoteRepository <<Driven Port>> {
+        + add(note: Note): None
+    }
+
+    class NoteNotKept <<Application Error>> #FFF1F2;line:#E11D48
+}
+
+package "Adapters" <<Adapters>> {
+    class HttpNotesRouter <<Driving Adapter>> #F0FDFA;line:#0D9488 {
+        + POST /notes
+    }
+
+    class InMemoryNoteRepository <<Driven Adapter>> #F0FDFA;line:#0D9488
+}
+
+HttpNotesRouter -up-> CreateNoteUseCase : calls
+HttpNotesRouter ..> CreateNoteCommand : builds
+CreateNote .up.|> CreateNoteUseCase
+CreateNote -down-> NoteRepository : uses
+CreateNote ..> Note : creates
+CreateNote ..> InvalidTitle : lets through
+NoteRepository ..> NoteNotKept : raises
+InMemoryNoteRepository .up.|> NoteRepository
+
+@enduml

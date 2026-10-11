@@ -8,11 +8,11 @@
 - UC-NOTE-006: Delete Note
 
 ## Analysis
-- UC-NOTE-001: Create Note
 
 ## Design
 
 ## Implementation
+- UC-NOTE-001: Create Note
 
 ## Verification
 

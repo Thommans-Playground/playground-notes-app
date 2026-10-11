@@ -1,0 +1,117 @@
+' ==============================================================================
+' Project: Playground Notes App
+' Theme: Nordic Slate (Modern Architectural Design System for PlantUML)
+' ==============================================================================
+
+' --- Global Settings ---
+skinparam monochrome false
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam defaultFontName "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+skinparam defaultFontSize 12
+skinparam defaultFontColor #0F172A
+skinparam ArrowColor #475569
+skinparam ArrowThickness 1.2
+skinparam BoxPadding 10
+skinparam ParticipantPadding 12
+
+' --- Canvas & Packaging ---
+skinparam BackgroundColor #FAFAFA
+skinparam PackageBorderColor #94A3B8
+skinparam PackageBackgroundColor #FFFFFF
+skinparam PackageFontSize 13
+skinparam PackageFontStyle bold
+skinparam PackageFontColor #0F172A
+
+' --- Notes & Annotations ---
+skinparam NoteBackgroundColor #FFFBEB
+skinparam NoteBorderColor #D97706
+skinparam NoteFontColor #92400E
+skinparam NoteFontSize 11
+skinparam NoteTextAlignment left
+
+' --- Sequence Diagrams ---
+skinparam SequenceLifeLineBorderColor #94A3B8
+skinparam SequenceLifeLineBackgroundColor #F1F5F9
+skinparam ParticipantBackgroundColor #FFFFFF
+skinparam ParticipantBorderColor #475569
+skinparam ParticipantBorderThickness 1.2
+skinparam ParticipantFontSize 13
+skinparam ParticipantFontStyle bold
+
+skinparam ActorBackgroundColor #FFFFFF
+skinparam ActorBorderColor #475569
+skinparam ActorFontSize 13
+skinparam ActorFontStyle bold
+
+skinparam SequenceGroupBackgroundColor #F8FAFC
+skinparam SequenceGroupBorderColor #94A3B8
+skinparam SequenceGroupHeaderFontColor #0F172A
+skinparam SequenceGroupFontSize 11
+skinparam SequenceGroupFontStyle bold
+
+' --- Class & DDD Stereotypes ---
+skinparam classAttributeIconSize 0
+skinparam ClassBackgroundColor #FFFFFF
+skinparam ClassBorderColor #94A3B8
+skinparam ClassBorderThickness 1.2
+skinparam ClassFontSize 12
+skinparam ClassHeaderBackgroundColor #F8FAFC
+skinparam ClassStereotypeFontSize 10
+skinparam ClassStereotypeFontColor #475569
+
+skinparam class<<Aggregate Root>> {
+  HeaderBackgroundColor #EEF2FF
+  BorderColor #4F46E5
+  BorderThickness 1.5
+}
+
+skinparam class<<Entity>> {
+  HeaderBackgroundColor #F0FDFA
+  BorderColor #0D9488
+}
+
+skinparam class<<Value Object>> {
+  HeaderBackgroundColor #FFFBEB
+  BorderColor #D97706
+}
+
+skinparam class<<Enum>> {
+  HeaderBackgroundColor #F8FAFC
+  BorderColor #64748B
+}
+
+' --- Hexagonal / Component Stereotypes ---
+skinparam package<<Domain>> {
+  BackgroundColor #EEF2FF
+  BorderColor #4F46E5
+}
+
+skinparam package<<Application>> {
+  BackgroundColor #F8FAFC
+  BorderColor #64748B
+}
+
+skinparam package<<Adapters>> {
+  BackgroundColor #FFFFFF
+  BorderColor #94A3B8
+}
+
+skinparam interface<<Driving Port>> {
+  BorderColor #4F46E5
+}
+
+skinparam interface<<Driven Port>> {
+  BorderColor #0D9488
+}
+
+' --- Activity Diagrams ---
+skinparam ActivityBackgroundColor #FFFFFF
+skinparam ActivityBorderColor #475569
+skinparam ActivityBorderThickness 1.2
+skinparam ActivityFontSize 12
+skinparam ActivityDiamondBackgroundColor #F8FAFC
+skinparam ActivityDiamondBorderColor #475569
+skinparam ActivityStartColor #0F172A
+skinparam ActivityEndColor #0F172A
+

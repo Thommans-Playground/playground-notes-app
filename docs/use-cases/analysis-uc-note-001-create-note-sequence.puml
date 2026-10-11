@@ -1,4 +1,5 @@
 @startuml analysis-uc-note-001-create-note-sequence
+!include ../architecture/theme.puml
 title UC-NOTE-001 - Create Note - Sequence
 
 actor User
