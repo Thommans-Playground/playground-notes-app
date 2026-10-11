@@ -37,3 +37,4 @@ Start only when the use case has passed its Analysis exit check. The architectur
 - Put domain rules in adapters. They translate and delegate.
 - Restate attributes, definitions, or rule text from the ontology. Map and cite them.
 - Let verification-only libraries (such as `rdflib` and `pyshacl`) be imported by the domain. They are development dependencies used by tests.
+- Use inline Mermaid for anything but a passing illustration. Analysis diagrams are PlantUML files; Mermaid never replaces them (see the README, Diagrams).

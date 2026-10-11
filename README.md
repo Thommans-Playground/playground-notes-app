@@ -47,6 +47,16 @@ An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain in
 | Architecture decisions | Layers, ports, adapters, dependency rule, context map | docs/architecture/adr-* |
 | Kanban | Where each use case stands | docs/kanban.md |
 
+## Diagrams
+
+| Use | Format | Example |
+|---|---|---|
+| A reviewed artifact that others cite: analysis diagrams, design specification, context map | PlantUML, in its own file | `analysis-uc-note-001-create-note-sequence.puml` |
+| An illustration of the point a document is making | Mermaid, inline in the Markdown | The V-cycle sketch below |
+| A view of the ontology | Generated PlantUML | The lifecycle state diagram |
+
+An inline Mermaid diagram is illustrative and never authoritative. It must not restate a rule, flow, or structure that another artifact owns. If a fact appears only in a Mermaid diagram, move it to its owner.
+
 ## Procedure for each use case
 
 A use case moves across the Kanban one stage at a time. A stage is finished when its exit check passes. The steps for Analysis and Design are skills, kept in `.agents/skills/` (and visible to Claude Code through `.claude/skills`):
@@ -59,6 +69,19 @@ A use case moves across the Kanban one stage at a time. A stage is finished when
 Write the tests first (TDD), then the code. Run all checks. The use case is done when its acceptance criteria pass.
 
 ## Mini V-cycle
+
+```mermaid
+flowchart LR
+    subgraph specify [Left leg]
+        A[Analysis] --> D[Design] --> I[Implementation]
+    end
+    I --> V[Verification]
+    V -. checks .-> A
+    V -. checks .-> D
+    V -. checks .-> I
+```
+
+The table is the authoritative description. The diagram only shows the shape.
 
 Each stage on the left has a matching check on the right.
 

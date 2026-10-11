@@ -43,3 +43,4 @@ Follow these steps in order. The ontology (`docs/ontology/ont-<context>.ttl`) is
 - Restate a rule, definition, or lifecycle that the ontology owns.
 - Choose entities, value objects, ports, or adapters. That is the Design stage (`use-case-design`).
 - Add back-links from upstream artifacts to their dependents.
+- Use inline Mermaid for anything but a passing illustration. Analysis diagrams are PlantUML files; Mermaid never replaces them (see the README, Diagrams).
