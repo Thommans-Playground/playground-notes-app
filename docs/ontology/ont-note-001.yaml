@@ -1,0 +1,76 @@
+id: ONT-NOTE-001
+concept: Note
+
+definition: >
+  A persistent information container that stores 
+  textual information.
+
+properties:
+  id:
+    type: uuid
+    description: Unique, stable, and immutable identifier.
+    rules:
+      - INV-NOTE-001
+
+  title:
+    type: string
+    required: true
+    description: Non-empty textual title.
+    rules:
+      - INV-NOTE-002
+
+  content:
+    type: string
+    required: false
+    description: Optional textual body content.
+
+  status:
+    type: enum
+    allowed_values:
+      - ACTIVE
+      - ARCHIVED
+      - DELETED
+    rules:
+      - INV-NOTE-003
+      - INV-NOTE-004
+
+relationships:
+  - predicate: ownedBy
+    target_concept: ONT-USER-001
+    cardinality:
+      min: 1
+      max: 1
+    description: A Note is owned by exactly one User.
+
+lifecycle:
+  initial_state: ACTIVE
+  transitions:
+    - from: ACTIVE
+      to: ARCHIVED
+      action: ArchiveNote
+
+    - from: ARCHIVED
+      to: ACTIVE
+      action: RestoreNote
+
+    - from: ACTIVE
+      to: DELETED
+      action: DeleteNote
+
+    - from: ARCHIVED
+      to: DELETED
+      action: DeleteNote
+
+rules:
+  - id: INV-NOTE-001
+    description: Every Note has a unique, immutable identity.
+
+  - id: INV-NOTE-002
+    description: A Note must have a non-empty title.
+    constraint: Title must contain at least one non-whitespace character.
+
+  - id: INV-NOTE-003
+    description: A newly created Note has ACTIVE status.
+
+  - id: INV-NOTE-004
+    description: A Note's status must be one of the defined lifecycle states.

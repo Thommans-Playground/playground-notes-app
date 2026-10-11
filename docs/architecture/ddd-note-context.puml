@@ -1,0 +1,41 @@
+@startuml Notes Aggregate
+title DDD-NOTE-001 - Note Aggregate
+
+skinparam classAttributeIconSize 0
+
+package "Notes Management BC" {
+
+  class Note <<Aggregate Root>> {
+    - id: NoteId
+    - title: NoteTitle
+    - content: String
+    - status: NoteStatus
+    --
+    + create(title, content): Note
+  }
+
+  class NoteId <<Value Object>> {
+    + value: UUID
+  }
+
+  class NoteTitle <<Value Object>> {
+    + value: String
+  }
+
+  enum NoteStatus {
+    ACTIVE
+    ARCHIVED
+    DELETED
+  }
+
+  Note *-- NoteId
+  Note *-- NoteTitle
+  Note --> NoteStatus
+}
+
+note right of NoteTitle
+  Must be non-empty
+  ONT-NOTE-001
+end note
+
+@enduml
