@@ -1,0 +1,28 @@
+@startuml analysis-uc-note-001-create-note-class
+title UC-NOTE-001 - Create Note - Concepts Involved
+
+' A view of ont-note.ttl limited to the concepts this use case touches.
+' The ontology owns the definitions. Do not add detail here that it does not hold.
+
+skinparam classAttributeIconSize 0
+
+class Note <<ONT-NOTE-001>>
+class Title <<ONT-NOTE-002>>
+class NormalizedTitle <<ONT-NOTE-003>>
+class Content <<ONT-NOTE-004>>
+class NoteIdentifier <<ONT-NOTE-005>>
+class NoteStatus <<ONT-NOTE-006>>
+
+Title <|-- NormalizedTitle
+
+Note "1" --> "1" NoteIdentifier : hasIdentifier\nONT-REL-NOTE-001
+Note "1" --> "1" NormalizedTitle : hasTitle\nONT-REL-NOTE-002
+Note "1" --> "0..1" Content : hasContent\nONT-REL-NOTE-003
+Note "1" --> "1" NoteStatus : hasStatus\nONT-REL-NOTE-004
+
+note right of NoteStatus
+  A new Note is Active
+  ONT-RULE-NOTE-003
+end note
+
+@enduml

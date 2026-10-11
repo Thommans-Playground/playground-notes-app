@@ -1,0 +1,27 @@
+@startuml analysis-uc-note-001-create-note-sequence
+title UC-NOTE-001 - Create Note - Sequence
+
+actor User
+participant "Note Management" as System
+
+User -> System : Create Note (Title, Content)
+activate System
+
+System -> System : Normalize and validate Title\n(ONT-RULE-NOTE-002)
+
+alt Title not valid (AF-001, AC-005)
+    System --> User : Title is not valid
+else Title valid
+    System -> System : Assign Note Identifier\n(ONT-RULE-NOTE-001)
+    System -> System : Create Note as Active\n(ONT-RULE-NOTE-003)
+    System -> System : Keep the Note
+
+    alt Note cannot be kept (AF-002, AC-006)
+        System --> User : Creation failed
+    else Note kept
+        System --> User : Note Identifier
+    end
+end
+
+deactivate System
+@enduml

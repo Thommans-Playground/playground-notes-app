@@ -7,7 +7,6 @@
 
 # Ontology: Note Management
 # Status: Draft
-# Language: UL-NOTE-001
 #
 # Competency questions. The ontology must be able to answer these.
 #   CQ-1  What is the status of a newly created Note?            Active
@@ -27,6 +26,9 @@
 
 :artifactId a owl:AnnotationProperty ;
     rdfs:comment "The artifact ID of the element, as used by other documents." .
+
+:rationale a owl:AnnotationProperty ;
+    rdfs:comment "Why the rule exists." .
 
 :rule a owl:AnnotationProperty ;
     rdfs:comment "Links a constraint to the rule it enforces." .
@@ -138,26 +140,32 @@
 
 :RuleNote001 a owl:NamedIndividual ;
     :artifactId "ONT-RULE-NOTE-001" ;
+    :rationale "Notes must be addressable independently of their Title and Content, which can change." ;
     rdfs:comment "Every Note has exactly one Note Identifier. It is unique and never changes." .
 
 :RuleNote002 a owl:NamedIndividual ;
     :artifactId "ONT-RULE-NOTE-002" ;
+    :rationale "A Title that is empty, or padded with whitespace, makes Notes hard to tell apart and to find." ;
     rdfs:comment "Every Note has exactly one Title, and it is a Normalized Title. This holds when a Note is created and whenever its Title changes." .
 
 :RuleNote003 a owl:NamedIndividual ;
     :artifactId "ONT-RULE-NOTE-003" ;
+    :rationale "Every Note starts from the same known position in its lifecycle." ;
     rdfs:comment "A newly created Note has the initial status, Active." .
 
 :RuleNote004 a owl:NamedIndividual ;
     :artifactId "ONT-RULE-NOTE-004" ;
+    :rationale "Every Note is in one definite position in its lifecycle." ;
     rdfs:comment "Every Note has exactly one status, and it is one of Active, Archived or Deleted." .
 
 :RuleNote005 a owl:NamedIndividual ;
     :artifactId "ONT-RULE-NOTE-005" ;
+    :rationale "The lifecycle is the agreed set of changes. Any other change is a mistake." ;
     rdfs:comment "A Note changes status only along a mayBecome relationship." .
 
 :RuleNote006 a owl:NamedIndividual ;
     :artifactId "ONT-RULE-NOTE-006" ;
+    :rationale "A Note has one body of text, and it may be left out." ;
     rdfs:comment "A Note has at most one Content." .
 
 # ---------------------------------------------------------------------------

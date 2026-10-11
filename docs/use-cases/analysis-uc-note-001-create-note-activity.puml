@@ -1,5 +1,5 @@
-@startuml ANA-NOTE-001
-title ANA-NOTE-001 - Create Note (UC-NOTE-001)
+@startuml analysis-uc-note-001-create-note-activity
+title UC-NOTE-001 - Create Note - Activity
 
 start
 

@@ -7,6 +7,7 @@ A notes application built to practise a specification-driven, test-first method:
 1. **One owner per fact.** Every statement lives in exactly one artifact. Others refer to it by ID and do not paraphrase it.
 2. **References point upstream.** A downstream artifact names the upstream artifact it realizes. Upstream artifacts do not list their dependents.
 3. **One language.** Terms follow the Ubiquitous Language (UL-NOTE-001).
+4. **The ontology is the single source of truth for domain meaning:** concepts, relationships, rules, and lifecycle. Interaction is owned by the use case and design by the design specification. Both cite the ontology and never restate it.
 
 ## Naming
 
@@ -17,7 +18,6 @@ An artifact ID is `<TYPE>-<DOMAIN>-<NUMBER>`, or `<TYPE>-<SUBTYPE>-<DOMAIN>-<NUM
 | Functional requirement | `REQ-FR` | `REQ-FR-NOTE-001` |
 | Non-functional requirement | `REQ-NFR` | `REQ-NFR-NOTE-001` |
 | Use case | `UC` | `UC-NOTE-001` |
-| Analysis diagram | `ANA` | `ANA-NOTE-001` |
 | Ubiquitous language | `UL` | `UL-NOTE-001` |
 | Ontology concept | `ONT` | `ONT-NOTE-001` |
 | Ontology relationship | `ONT-REL` | `ONT-REL-NOTE-001` |
@@ -31,7 +31,7 @@ An artifact ID is `<TYPE>-<DOMAIN>-<NUMBER>`, or `<TYPE>-<SUBTYPE>-<DOMAIN>-<NUM
 
 An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain invariant (`INV`) is a condition the aggregate must protect that the ontology cannot express, and it refers to the ontology rule it relates to and never restates it.
 
-**Files.** A document that holds one artifact is named `<id>-<slug>`, in lowercase (`uc-note-001-create-note.md`). A document that holds many artifacts has a plain name (`functional-requirements.md`, `ont-note.ttl`).
+**Files.** Analysis diagrams are named `analysis-<use case id>-<slug>-<kind>.puml`, where kind is `sequence`, `class` or `activity`, and sit beside their use case. A document that holds one artifact is named `<id>-<slug>`, in lowercase (`uc-note-001-create-note.md`). A document that holds many artifacts has a plain name (`functional-requirements.md`, `ont-note.ttl`).
 
 ## Who owns what
 
@@ -41,11 +41,22 @@ An ontology rule (`ONT-RULE`) is a structural truth about a concept. A domain in
 | Non-functional requirements | Quality needs | docs/requirements/non-functional-requirements.md |
 | Ontology | What exists and what is always true of it: concepts, relationships, rules, lifecycle | docs/ontology/ont-note.ttl |
 | Use cases | Interaction: steps and failure flows | docs/use-cases/ |
-| Analysis diagrams | A view of one use case | docs/architecture/ana-* |
+| Analysis diagrams | Views of one use case: sequence, concepts involved, optionally activity | docs/use-cases/analysis-* |
 | Ubiquitous language | How we talk | docs/architecture/ul-note-001-ubiquitous-language.md |
 | Design specification | Aggregates, entities, value objects, and what enforces each ontology rule | docs/architecture/des-note-001-note-aggregate.* |
 | Architecture decisions | Layers, ports, adapters, dependency rule, context map | docs/architecture/adr-* |
 | Kanban | Where each use case stands | docs/kanban.md |
+
+## Procedure for each use case
+
+A use case moves across the Kanban one stage at a time. A stage is finished when its exit check passes. The steps for Analysis and Design are skills, kept in `.agents/skills/` (and visible to Claude Code through `.claude/skills`):
+
+- `use-case-analysis`: requirement, ontology, language, use case, and analysis diagrams
+- `use-case-design`: domain model, ports, decisions, and test mapping
+
+### Implementation and Verification
+
+Write the tests first (TDD), then the code. Run all checks. The use case is done when its acceptance criteria pass.
 
 ## Mini V-cycle
 
